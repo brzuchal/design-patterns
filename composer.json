@@ -1,10 +1,15 @@
 {
     "require-dev": {
-        "phpspec/phpspec": "^3.1"
     },
     "autoload": {
         "psr-4": {
             "DocFlow\\": "src/"
         }
+    },
+    "config": {
+        "bin-dir": "bin/"
+    },
+    "require": {
+        "phpspec/phpspec": "^3.1"
     }
 }
