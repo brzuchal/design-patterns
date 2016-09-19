@@ -1,0 +1,5 @@
+suites:
+  types:
+    namespace: DocFlow
+    psr4_prefix: DocFlow
+    spec_path: tests
