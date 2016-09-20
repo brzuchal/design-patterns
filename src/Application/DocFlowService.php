@@ -8,6 +8,7 @@
 namespace DocFlow\Application;
 
 use DocFlow\Domain\Document\Document;
+use DocFlow\Domain\Document\DocumentNumber;
 use DocFlow\Domain\Document\DocumentRepository;
 use DocFlow\Domain\Document\DocumentType;
 use DocFlow\Domain\Document\NumberGenerator\ISONumberGenerator;
@@ -42,20 +43,30 @@ class DocFlowService
     }
 
     /**
+     * Creates new document
+     * @param string $authorId
      * @return Document
      */
-    public function create() : Document
+    public function create(string $authorId) : Document
     {
-        $author = new User('brzuchal');
         $numberGenerator = new ISONumberGenerator();
 //        $numberGenerator = new QEPNumberGenerator();
 
+        $author = $this->userRepository->findById($authorId);
+
         return new Document(DocumentType::INSTRUCTION(), $author, $numberGenerator);
     }
-    
-    public function publish(Document $document)
+
+    /**
+     * Publishes document
+     * @param string $documentNumber
+     */
+    public function publish(string $documentNumber)
     {
         $priceCalculator = new RGBPriceCalculator(new Money(22, new Currency('PLN')));
+
+        $documentNumber = new DocumentNumber($documentNumber);
+        $document = $this->documentRepository->findByNumber($documentNumber);
 
         $document->publish($priceCalculator);
     }
