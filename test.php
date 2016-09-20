@@ -1,29 +1,15 @@
 <?php declare(strict_types=1);
-namespace DocFlow;
 
-use DocFlow\Domain\Document\Document;
-use DocFlow\Domain\Document\DocumentType;
-use DocFlow\Domain\Document\ISONumberGenerator;
-use DocFlow\Domain\Document\QEPNumberGenerator;
-use DocFlow\Domain\Document\RGBPriceCalculator;
-use DocFlow\Domain\User\User;
-use Money\Currency;
-use Money\Money;
+use DocFlow\Application\DocFlowService;
 
 require_once 'vendor/autoload.php';
 
-$ISONumberGenerator = new ISONumberGenerator();
-$QEPNumberGenerator = new QEPNumberGenerator();
-$rgbPriceCalculator = new RGBPriceCalculator(new Money(22, new Currency('PLN')));
+$userRepository = new \DocFlow\Infrastructure\Memory\UserRepository();
+$documentRepository = new \DocFlow\Infrastructure\Memory\DocumentRepository();
 
-$author = new User('brzuchal');
+$docFlow = new DocFlowService($userRepository, $documentRepository);
+$document = $docFlow->create();
+dump($document);
 
-$ISODocument = new Document(DocumentType::INSTRUCTION(), $author, $ISONumberGenerator);
-dump($ISODocument);
-$ISODocument->publish($rgbPriceCalculator);
-dump($ISODocument);
-
-$QEPDocument = new Document(DocumentType::INSTRUCTION(), $author, $QEPNumberGenerator);
-dump($QEPDocument);
-$QEPDocument->publish($rgbPriceCalculator);
-dump($QEPDocument);
+$docFlow->publish($document);
+dump($document);

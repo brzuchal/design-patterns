@@ -13,6 +13,10 @@ namespace DocFlow\Domain\User;
  */
 interface UserRepository
 {
+    /**
+     * Loads data
+     * @return mixed
+     */
     public function load();
 
     /**

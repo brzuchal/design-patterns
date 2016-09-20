@@ -7,8 +7,16 @@
  */
 namespace DocFlow\Application;
 
+use DocFlow\Domain\Document\Document;
 use DocFlow\Domain\Document\DocumentRepository;
+use DocFlow\Domain\Document\DocumentType;
+use DocFlow\Domain\Document\ISONumberGenerator;
+use DocFlow\Domain\Document\QEPNumberGenerator;
+use DocFlow\Domain\Document\RGBPriceCalculator;
+use DocFlow\Domain\User\User;
 use DocFlow\Domain\User\UserRepository;
+use Money\Currency;
+use Money\Money;
 
 /**
  * Class DocFlowService
@@ -33,15 +41,23 @@ class DocFlowService
         $this->documentRepository = $documentRepository;
     }
 
-
-    public function create()
+    /**
+     * @return Document
+     */
+    public function create() : Document
     {
-        
+        $author = new User('brzuchal');
+        $numberGenerator = new ISONumberGenerator();
+//        $numberGenerator = new QEPNumberGenerator();
+
+        return new Document(DocumentType::INSTRUCTION(), $author, $numberGenerator);
     }
     
-    public function change()
+    public function publish(Document $document)
     {
-        
+        $priceCalculator = new RGBPriceCalculator(new Money(22, new Currency('PLN')));
+
+        $document->publish($priceCalculator);
     }
     
     public function verify()

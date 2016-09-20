@@ -14,6 +14,7 @@
         "esky/enum": "^1.1",
         "ramsey/uuid": "^3.5",
         "symfony/var-dumper": "^3.1",
-        "mathiasverraes/money": "^1.3"
+        "mathiasverraes/money": "^1.3",
+        "madkom/collection": "^1.0"
     }
 }

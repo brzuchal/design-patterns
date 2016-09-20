@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "bcf782df4649c1b11087088a0b1162e4",
-    "content-hash": "857469b416dc0b2907f3c199ab3ca953",
+    "hash": "a13ca1fef696d1bcc80cb9edeb93ba2e",
+    "content-hash": "2960aee5f36390c6c30df4469db1d09a",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -96,6 +96,57 @@
             ],
             "description": "PHP Enum implementation",
             "time": "2015-05-17 09:47:42"
+        },
+        {
+            "name": "madkom/collection",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/madkom/collection.git",
+                "reference": "b9097303ce312cde70ef20b9197bb6369b55c48c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/madkom/collection/zipball/b9097303ce312cde70ef20b9197bb6369b55c48c",
+                "reference": "b9097303ce312cde70ef20b9197bb6369b55c48c",
+                "shasum": ""
+            },
+            "require": {
+                "php": "~7"
+            },
+            "require-dev": {
+                "clover/dump": "dev-master",
+                "henrikbjorn/phpspec-code-coverage": "@dev",
+                "instaclick/object-calisthenics-sniffs": "@dev",
+                "jakub-onderka/php-console-highlighter": "0.*",
+                "jakub-onderka/php-parallel-lint": "0.*",
+                "mdarse/phpunit-notifier": "@dev",
+                "phpspec/phpspec": "@dev",
+                "phpspec/prophecy": "dev-master",
+                "phpunit/phpcov": "*",
+                "phpunit/phpunit": "5.*",
+                "satooshi/php-coveralls": "dev-master",
+                "squizlabs/php_codesniffer": "^2.3",
+                "symfony/var-dumper": "^3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Madkom\\Collection\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michał Brzuchalski",
+                    "email": "m.brzuchalski@madkom.pl"
+                }
+            ],
+            "description": "Entity collection library with strict element typing",
+            "time": "2016-02-23 09:15:24"
         },
         {
             "name": "mathiasverraes/money",
