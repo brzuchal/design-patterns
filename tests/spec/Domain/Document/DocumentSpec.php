@@ -17,11 +17,9 @@ use Prophecy\Argument;
  */
 class DocumentSpec extends ObjectBehavior
 {
-    function let(DocumentType $documentType, User $user, NumberGenerator $numberGenerator, DocumentNumber $documentNumber)
+    function let(DocumentType $documentType, User $user, DocumentNumber $documentNumber)
     {
-        $numberGenerator->generateNumber($documentType)->willReturn($documentNumber);
-
-        $this->beConstructedWith($documentType, $user, $numberGenerator);
+        $this->beConstructedWith($documentNumber, $documentType, $user);
     }
     function it_is_initializable()
     {

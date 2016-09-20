@@ -30,16 +30,16 @@ class Document
 
     /**
      * Document constructor.
+     * @param DocumentNumber $number
      * @param DocumentType $type
      * @param User $author
-     * @param NumberGenerator $numberGenerator
      */
-    public function __construct(DocumentType $type, User $author, NumberGenerator $numberGenerator)
+    public function __construct(DocumentNumber $number, DocumentType $type, User $author)
     {
         $this->status = DocumentStatus::DRAFT();
         $this->type = $type;
         $this->author = $author;
-        $this->number = $numberGenerator->generateNumber($type);
+        $this->number = $number;
     }
 
     /**

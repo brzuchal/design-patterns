@@ -24,6 +24,9 @@ class DocumentNumber
     public function __construct(string $number)
     {
         $this->number = $number;
+        if (false === $this->isValid()) {
+            throw new \InvalidArgumentException("Unable to create document number with: {$number}");
+        }
     }
 
     /**
@@ -32,6 +35,15 @@ class DocumentNumber
      */
     public function __toString()
     {
-        return$this->number;
+        return $this->number;
+    }
+
+    /**
+     * Checks if number is valid
+     * @return bool
+     */
+    public function isValid() : bool
+    {
+        return strlen($this->number) > 0;
     }
 }

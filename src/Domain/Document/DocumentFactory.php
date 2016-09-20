@@ -35,6 +35,8 @@ class DocumentFactory
      */
     public function create(DocumentType $documentType, User $user) : Document
     {
-        return new Document($documentType, $user, $this->numberGenerator);
+        $documentNumber = $this->numberGenerator->generateNumber($documentType);
+
+        return new Document($documentNumber, $documentType, $user);
     }
 }
