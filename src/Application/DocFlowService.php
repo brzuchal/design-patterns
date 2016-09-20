@@ -10,17 +10,10 @@ namespace DocFlow\Application;
 use DocFlow\Domain\Document\Document;
 use DocFlow\Domain\Document\DocumentFactory;
 use DocFlow\Domain\Document\DocumentNumber;
-use DocFlow\Domain\Document\DocumentRepository;
 use DocFlow\Domain\Document\DocumentType;
 use DocFlow\Domain\Document\NumberGenerator;
-use DocFlow\Domain\Document\NumberGenerator\ISONumberGenerator;
-use DocFlow\Domain\Document\NumberGenerator\QEPNumberGenerator;
-use DocFlow\Domain\Document\PriceCalculator\RGBPriceCalculator;
 use DocFlow\Domain\Document\PriceCalculatorFactory;
-use DocFlow\Domain\User\User;
-use DocFlow\Domain\User\UserRepository;
-use Money\Currency;
-use Money\Money;
+use DocFlow\Domain\DomainRegistry;
 
 /**
  * Class DocFlowService
@@ -29,25 +22,31 @@ use Money\Money;
  */
 class DocFlowService
 {
-    /** @var UserRepository */
-    private $userRepository;
-    /** @var DocumentRepository */
-    private $documentRepository;
+    const ENV_PROD = 'prod';
+    const ENV_DEMO = 'demo';
+
+    /** @var DomainRegistry */
+    private $domainRegistry;
     /** @var DocumentFactory */
     private $documentFactory;
     /** @var PriceCalculatorFactory */
     private $priceCalculatorFactory;
+    /** @var string */
+    private $env;
 
     /**
      * DocFlowService constructor.
-     * @param UserRepository $userRepository
-     * @param DocumentRepository $documentRepository
+     * @param string $env
+     * @param DomainRegistry $domainRegistry
      * @param NumberGenerator $numberGenerator
      */
-    public function __construct(UserRepository $userRepository, DocumentRepository $documentRepository, NumberGenerator $numberGenerator)
+    public function __construct(string $env = self::ENV_PROD, DomainRegistry $domainRegistry, NumberGenerator $numberGenerator)
     {
-        $this->userRepository = $userRepository;
-        $this->documentRepository = $documentRepository;
+        $this->env = $env;
+        if ($env == self::ENV_DEMO) {
+            $numberGenerator = new NumberGenerator\DemoNumberGenerator($numberGenerator);
+        }
+        $this->domainRegistry = $domainRegistry;
         $this->documentFactory = new DocumentFactory($numberGenerator);
         $this->priceCalculatorFactory = new PriceCalculatorFactory();
     }
@@ -60,12 +59,12 @@ class DocFlowService
      */
     public function create(string $authorId, string $type) : Document
     {
-        $author = $this->userRepository->findById($authorId);
+        $author = $this->domainRegistry->getUserRepository()->findById($authorId);
         $documentType = DocumentType::createFromConstantName($type);
 
         $document = $this->documentFactory->create($documentType, $author);
 
-        $this->documentRepository->save($document);
+        $this->domainRegistry->getDocumentRepository()->save($document);
 
         return $document;
     }
@@ -77,7 +76,7 @@ class DocFlowService
     public function publish(string $documentNumber)
     {
         $documentNumber = new DocumentNumber($documentNumber);
-        $document = $this->documentRepository->findByNumber($documentNumber);
+        $document = $this->domainRegistry->getDocumentRepository()->findByNumber($documentNumber);
 
         $document->publish($this->priceCalculatorFactory->createPriceCalculator());
     }

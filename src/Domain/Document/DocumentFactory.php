@@ -7,6 +7,8 @@
  */
 namespace DocFlow\Domain\Document;
 
+use DocFlow\Domain\Document\NumberGenerator\AuditNumberGenerator;
+use DocFlow\Domain\User\AuditUser;
 use DocFlow\Domain\User\User;
 
 /**
@@ -18,6 +20,8 @@ class DocumentFactory
 {
     /** @var NumberGenerator */
     private $numberGenerator;
+    /** @var AuditNumberGenerator */
+    private $auditNumberGenerator;
 
     /**
      * DocumentFactory constructor.
@@ -26,6 +30,7 @@ class DocumentFactory
     public function __construct(NumberGenerator $numberGenerator)
     {
         $this->numberGenerator = $numberGenerator;
+        $this->auditNumberGenerator = new AuditNumberGenerator($this->numberGenerator);
     }
 
     /**
@@ -35,7 +40,11 @@ class DocumentFactory
      */
     public function create(DocumentType $documentType, User $user) : Document
     {
-        $documentNumber = $this->numberGenerator->generateNumber($documentType);
+        if ($user instanceof AuditUser) {
+            $documentNumber = $this->auditNumberGenerator->generateNumber($documentType);
+        } else {
+            $documentNumber = $this->numberGenerator->generateNumber($documentType);
+        }
 
         return new Document($documentNumber, $documentType, $user);
     }
