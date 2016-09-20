@@ -19,16 +19,14 @@ use Madkom\Collection\CustomDistinctCollection;
 class DocumentRepository implements \DocFlow\Domain\Document\DocumentRepository
 {
     /** @var CustomDistinctCollection */
-    private $data;
+    private $documents;
 
     /**
-     * Load document by number
-     * @param DocumentNumber $documentNumber
-     * @return mixed
+     * DocumentRepository constructor.
      */
-    public function load(DocumentNumber $documentNumber)
+    public function __construct()
     {
-        $this->data = new class extends CustomDistinctCollection {
+        $this->documents = new class extends CustomDistinctCollection {
             /**
              * @return string
              */
@@ -54,6 +52,23 @@ class DocumentRepository implements \DocFlow\Domain\Document\DocumentRepository
      */
     public function save(Document $document)
     {
-        $this->data->add($document);
+        $this->documents->add($document);
+    }
+
+    /**
+     * Retrieves document by number
+     * @param DocumentNumber $documentNumber
+     * @return Document
+     */
+    public function findByNumber(DocumentNumber $documentNumber) : Document
+    {
+        /** @var Document $document */
+        foreach ($this->documents as $document) {
+            if ((string)$document->getNumber() == (string)$documentNumber) {
+                return $document;
+            }
+        }
+
+        throw new \InvalidArgumentException("Missing document: {$documentNumber}");
     }
 }

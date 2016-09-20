@@ -14,16 +14,16 @@ namespace DocFlow\Domain\Document;
 interface DocumentRepository
 {
     /**
-     * Load document by number
-     * @param DocumentNumber $documentNumber
-     * @return mixed
-     */
-    public function load(DocumentNumber $documentNumber);
-
-    /**
      * Stores document
      * @param Document $document
      * @return mixed
      */
     public function save(Document $document);
+
+    /**
+     * Retrieves document by number
+     * @param DocumentNumber $documentNumber
+     * @return Document
+     */
+    public function findByNumber(DocumentNumber $documentNumber) : Document;
 }

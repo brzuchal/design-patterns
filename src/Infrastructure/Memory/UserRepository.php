@@ -18,14 +18,14 @@ use Madkom\Collection\CustomTypedCollection;
 class UserRepository implements \DocFlow\Domain\User\UserRepository
 {
     /** @var CustomTypedCollection */
-    private $data;
+    private $users;
 
     /**
-     * Loads data
+     * UserRepository constructor.
      */
-    public function load()
+    public function __construct()
     {
-        $this->data = new class extends CustomTypedCollection {
+        $this->users = new class extends CustomTypedCollection {
             /**
              * Retrieves collection type
              * @return string
@@ -44,6 +44,23 @@ class UserRepository implements \DocFlow\Domain\User\UserRepository
      */
     public function save(User $user)
     {
-        $this->data->add($user);
+        $this->users->add($user);
+    }
+
+    /**
+     * Retrieves user by id
+     * @param string $userId
+     * @return User
+     */
+    public function findById(string $userId) : User
+    {
+        /** @var User $user */
+        foreach ($this->users as $user) {
+            if ($user->getName() == $userId) {
+                return $user;
+            }
+        }
+
+        throw new \InvalidArgumentException("Missing user: {$userId}");
     }
 }

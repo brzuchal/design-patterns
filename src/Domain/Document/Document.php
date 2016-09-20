@@ -32,6 +32,7 @@ class Document
      * Document constructor.
      * @param DocumentType $type
      * @param User $author
+     * @param NumberGenerator $numberGenerator
      */
     public function __construct(DocumentType $type, User $author, NumberGenerator $numberGenerator)
     {

@@ -14,15 +14,16 @@ namespace DocFlow\Domain\User;
 interface UserRepository
 {
     /**
-     * Loads data
-     * @return mixed
-     */
-    public function load();
-
-    /**
      * Stores user
      * @param User $user
      * @return mixed
      */
     public function save(User $user);
+
+    /**
+     * Retrieves user by id
+     * @param string $userId
+     * @return User
+     */
+    public function findById(string $userId) : User;
 }
