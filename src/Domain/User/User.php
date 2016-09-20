@@ -1,11 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: mbrzuchalski
  * Date: 20.09.16
  * Time: 09:01
  */
-namespace DocFlow\Domain;
+namespace DocFlow\Domain\User;
 
 /**
  * Class User
@@ -27,6 +27,7 @@ class User
     }
 
     /**
+     * Retrieves user name
      * @return string
      */
     public function getName() : string

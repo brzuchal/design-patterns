@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: mbrzuchalski
@@ -27,6 +27,7 @@ class DocumentNumber
     }
 
     /**
+     * Retrieves string representation
      * @return string
      */
     public function __toString()

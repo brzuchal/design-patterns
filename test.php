@@ -1,18 +1,29 @@
-<?php
+<?php declare(strict_types=1);
 namespace DocFlow;
 
-use ReflectionClass;
+use DocFlow\Domain\Document\Document;
+use DocFlow\Domain\Document\DocumentType;
+use DocFlow\Domain\Document\ISONumberGenerator;
+use DocFlow\Domain\Document\QEPNumberGenerator;
+use DocFlow\Domain\Document\RGBPriceCalculator;
+use DocFlow\Domain\User\User;
+use Money\Currency;
+use Money\Money;
 
 require_once 'vendor/autoload.php';
 
+$ISONumberGenerator = new ISONumberGenerator();
+$QEPNumberGenerator = new QEPNumberGenerator();
+$rgbPriceCalculator = new RGBPriceCalculator(new Money(22, new Currency('PLN')));
 
-$instance1 = ErrorsRegistry::getInstance();
+$author = new User('brzuchal');
 
-$reflection = new ReflectionClass(ErrorsRegistry::class);
-$instance2 = $reflection->newInstanceWithoutConstructor();
+$ISODocument = new Document(DocumentType::INSTRUCTION(), $author, $ISONumberGenerator);
+dump($ISODocument);
+$ISODocument->publish($rgbPriceCalculator);
+dump($ISODocument);
 
-//$instance3 = unserialize(sprintf('O:%d:"%s":0:{}', strlen(ErrorsRegistry::class), ErrorsRegistry::class));
-
-
-var_dump($instance1);
-var_dump($instance2);
+$QEPDocument = new Document(DocumentType::INSTRUCTION(), $author, $QEPNumberGenerator);
+dump($QEPDocument);
+$QEPDocument->publish($rgbPriceCalculator);
+dump($QEPDocument);

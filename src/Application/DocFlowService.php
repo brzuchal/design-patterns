@@ -6,8 +6,9 @@
  * Time: 09:02
  */
 namespace DocFlow\Application;
+
 use DocFlow\Domain\Document\DocumentRepository;
-use DocFlow\Domain\UserRepository;
+use DocFlow\Domain\User\UserRepository;
 
 /**
  * Class DocFlowService
