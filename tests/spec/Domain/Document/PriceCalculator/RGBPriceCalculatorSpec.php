@@ -1,7 +1,7 @@
 <?php
-namespace spec\DocFlow\Domain\Document;
+namespace spec\DocFlow\Domain\Document\PriceCalculator;
 
-use DocFlow\Domain\Document\RGBPriceCalculator;
+use DocFlow\Domain\Document\PriceCalculator\RGBPriceCalculator;
 use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;

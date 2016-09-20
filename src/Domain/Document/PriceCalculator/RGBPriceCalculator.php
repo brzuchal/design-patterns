@@ -5,7 +5,10 @@
  * Date: 20.09.16
  * Time: 09:57
  */
-namespace DocFlow\Domain\Document;
+namespace DocFlow\Domain\Document\PriceCalculator;
+
+use DocFlow\Domain\Document\Document;
+use DocFlow\Domain\Document\PriceCalculator;
 use Money\Money;
 
 /**

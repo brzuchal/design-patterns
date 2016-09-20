@@ -1,8 +1,8 @@
 <?php
 
-namespace spec\DocFlow\Domain\Document;
+namespace spec\DocFlow\Domain\Document\NumberGenerator;
 
-use DocFlow\Domain\Document\ISONumberGenerator;
+use DocFlow\Domain\Document\NumberGenerator\ISONumberGenerator;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 

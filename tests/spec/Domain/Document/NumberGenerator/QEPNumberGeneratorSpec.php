@@ -1,8 +1,8 @@
 <?php
 
-namespace spec\DocFlow\Domain\Document;
+namespace spec\DocFlow\Domain\Document\NumberGenerator;
 
-use DocFlow\Domain\Document\QEPNumberGenerator;
+use DocFlow\Domain\Document\NumberGenerator\QEPNumberGenerator;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 

@@ -5,8 +5,11 @@
  * Date: 20.09.16
  * Time: 09:35
  */
-namespace DocFlow\Domain\Document;
+namespace DocFlow\Domain\Document\NumberGenerator;
 
+use DocFlow\Domain\Document\DocumentNumber;
+use DocFlow\Domain\Document\DocumentType;
+use DocFlow\Domain\Document\NumberGenerator;
 use Ramsey\Uuid\Uuid;
 
 /**
