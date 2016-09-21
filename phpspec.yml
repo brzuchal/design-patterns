@@ -1,5 +1,12 @@
+extensions:
+    \PhpSpecCodeCoverage\CodeCoverageExtension:
+
 suites:
   types:
     namespace: DocFlow
     psr4_prefix: DocFlow
     spec_path: tests
+
+code_coverage:
+    output: tests/phpspec.cov
+    format: php

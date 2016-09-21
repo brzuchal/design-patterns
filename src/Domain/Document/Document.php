@@ -42,8 +42,13 @@ class Document
      * @param DateTimeImmutable $expireDate
      * @param string $description
      */
-    public function __construct(DocumentNumber $number, DocumentType $type, User $author, DateTimeImmutable $expireDate = null, string $description = '')
-    {
+    public function __construct(
+        DocumentNumber $number,
+        DocumentType $type,
+        User $author,
+        DateTimeImmutable $expireDate = null,
+        string $description = ''
+    ) {
         $this->state = new DraftState($this);
         $this->type = $type;
         $this->author = $author;

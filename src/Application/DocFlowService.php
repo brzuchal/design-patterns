@@ -44,8 +44,12 @@ class DocFlowService
      * @param NumberGenerator $numberGenerator
      * @param DocumentValidator $documentValidator
      */
-    public function __construct(string $env = self::ENV_PROD, DomainRegistry $domainRegistry, NumberGenerator $numberGenerator, DocumentValidator $documentValidator)
-    {
+    public function __construct(
+        string $env,
+        DomainRegistry $domainRegistry,
+        NumberGenerator $numberGenerator,
+        DocumentValidator $documentValidator
+    ) {
         $this->env = $env;
         if ($env == self::ENV_DEMO) {
             $numberGenerator = new NumberGenerator\DemoNumberGenerator($numberGenerator);
@@ -98,11 +102,9 @@ class DocFlowService
 
     public function archive()
     {
-        
     }
     
     public function newVersion()
     {
-        
     }
 }
