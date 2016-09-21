@@ -7,6 +7,7 @@
  */
 namespace DocFlow\Domain\Document;
 
+use DateTimeImmutable;
 use DocFlow\Domain\User\User;
 use Money\Money;
 
@@ -27,19 +28,27 @@ class Document
     private $author;
     /** @var Money */
     private $price;
+    /** @var DateTimeImmutable */
+    private $expireDate;
+    /** @var string */
+    private $description;
 
     /**
      * Document constructor.
      * @param DocumentNumber $number
      * @param DocumentType $type
      * @param User $author
+     * @param DateTimeImmutable $expireDate
+     * @param string $description
      */
-    public function __construct(DocumentNumber $number, DocumentType $type, User $author)
+    public function __construct(DocumentNumber $number, DocumentType $type, User $author, DateTimeImmutable $expireDate = null, string $description = '')
     {
         $this->status = DocumentStatus::DRAFT();
         $this->type = $type;
         $this->author = $author;
         $this->number = $number;
+        $this->expireDate = $expireDate;
+        $this->description = $description;
     }
 
     public function publish(PriceCalculator $priceCalculator)
@@ -91,5 +100,21 @@ class Document
     public function getPageCount() : int
     {
         return rand(1, 10);
+    }
+
+    /**
+     * @return DateTimeImmutable
+     */
+    public function getExpireDate() : DateTimeImmutable
+    {
+        return $this->expireDate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription() : string
+    {
+        return $this->description;
     }
 }

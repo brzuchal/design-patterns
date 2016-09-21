@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
 use DocFlow\Application\DocFlowService;
+use DocFlow\Domain\Document\DocumentValidatorFactory;
 use DocFlow\Domain\Document\NumberGenerator\ISONumberGenerator;
 use DocFlow\Domain\Document\NumberGenerator\QEPNumberGenerator;
 use DocFlow\Domain\DomainRegistry;
@@ -18,11 +19,19 @@ $domainRegistry = new DomainRegistry($userRepository, $documentRepository);
 $numberGenerator = new ISONumberGenerator();
 //$numberGenerator = new QEPNumberGenerator();
 
+$documentValidatorFactory = new DocumentValidatorFactory();
+$documentValidator = $documentValidatorFactory->createISOValidator();
+//$documentValidator = $documentValidatorFactory->createQEPValidator();
+
 $author = new AuditUser('brzuchal');
 $userRepository->save($author);
 
-
-$docFlow = new DocFlowService(DocFlowService::ENV_DEMO, $domainRegistry, $numberGenerator);
+$docFlow = new DocFlowService(
+    DocFlowService::ENV_DEMO,
+    $domainRegistry,
+    $numberGenerator,
+    $documentValidator
+);
 $document = $docFlow->create('brzuchal', 'INSTRUCTION');
 dump($document);
 

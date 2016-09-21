@@ -11,6 +11,7 @@ use DocFlow\Domain\Document\Document;
 use DocFlow\Domain\Document\DocumentFactory;
 use DocFlow\Domain\Document\DocumentNumber;
 use DocFlow\Domain\Document\DocumentType;
+use DocFlow\Domain\Document\DocumentValidator;
 use DocFlow\Domain\Document\NumberGenerator;
 use DocFlow\Domain\Document\PriceCalculatorFactory;
 use DocFlow\Domain\DomainRegistry;
@@ -33,14 +34,17 @@ class DocFlowService
     private $priceCalculatorFactory;
     /** @var string */
     private $env;
+    /** @var DocumentValidator */
+    private $documentValidator;
 
     /**
      * DocFlowService constructor.
      * @param string $env
      * @param DomainRegistry $domainRegistry
      * @param NumberGenerator $numberGenerator
+     * @param DocumentValidator $documentValidator
      */
-    public function __construct(string $env = self::ENV_PROD, DomainRegistry $domainRegistry, NumberGenerator $numberGenerator)
+    public function __construct(string $env = self::ENV_PROD, DomainRegistry $domainRegistry, NumberGenerator $numberGenerator, DocumentValidator $documentValidator)
     {
         $this->env = $env;
         if ($env == self::ENV_DEMO) {
@@ -49,6 +53,7 @@ class DocFlowService
         $this->domainRegistry = $domainRegistry;
         $this->documentFactory = new DocumentFactory($numberGenerator);
         $this->priceCalculatorFactory = new PriceCalculatorFactory();
+        $this->documentValidator = $documentValidator;
     }
 
     /**
