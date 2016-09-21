@@ -42,6 +42,30 @@ class Document
         $this->number = $number;
     }
 
+    public function publish(PriceCalculator $priceCalculator)
+    {
+        $this->status = DocumentStatus::PUBLISHED();
+        $this->price = $priceCalculator->calculatePrice($this);
+    }
+
+    /**
+     * Retrieves document status
+     * @return DocumentStatus
+     */
+    public function getStatus(): DocumentStatus
+    {
+        return $this->status;
+    }
+
+    /**
+     * Retrieves document type
+     * @return DocumentType
+     */
+    public function getType(): DocumentType
+    {
+        return $this->type;
+    }
+
     /**
      * Retrieves document number
      * @return DocumentNumber
@@ -67,11 +91,5 @@ class Document
     public function getPageCount() : int
     {
         return rand(1, 10);
-    }
-    
-    public function publish(PriceCalculator $priceCalculator)
-    {
-        $this->status = DocumentStatus::PUBLISHED();
-        $this->price = $priceCalculator->calculatePrice($this);
     }
 }
