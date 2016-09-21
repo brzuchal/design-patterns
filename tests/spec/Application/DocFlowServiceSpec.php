@@ -12,6 +12,7 @@ use DocFlow\Domain\User\User;
 use DocFlow\Domain\User\UserRepository;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Webmozart\Assert\Assert;
 
 /**
@@ -27,12 +28,12 @@ class DocFlowServiceSpec extends ObjectBehavior
         UserRepository $userRepository,
         DocumentRepository $documentRepository,
         NumberGenerator $numberGenerator,
-        DocumentValidator $documentValidator
-    )
-    {
+        DocumentValidator $documentValidator,
+        EventDispatcherInterface $eventDispatcher
+    ) {
         $domainRegistry->getUserRepository()->willReturn($userRepository);
         $domainRegistry->getDocumentRepository()->willReturn($documentRepository);
-        $this->beConstructedWith(DocFlowService::ENV_PROD, $domainRegistry, $numberGenerator, $documentValidator);
+        $this->beConstructedWith(DocFlowService::ENV_PROD, $domainRegistry, $numberGenerator, $documentValidator, $eventDispatcher);
     }
     function it_is_initializable()
     {
@@ -42,10 +43,10 @@ class DocFlowServiceSpec extends ObjectBehavior
         DomainRegistry $domainRegistry,
         UserRepository $userRepository,
         NumberGenerator $numberGenerator,
-        DocumentValidator $documentValidator
-    )
-    {
-        $this->beConstructedWith(DocFlowService::ENV_DEMO, $domainRegistry, $numberGenerator, $documentValidator);
+        DocumentValidator $documentValidator,
+        EventDispatcherInterface $eventDispatcher
+    ) {
+        $this->beConstructedWith(DocFlowService::ENV_DEMO, $domainRegistry, $numberGenerator, $documentValidator, $eventDispatcher);
 
         $user = new User('a');
         $userRepository->findById('a')->willReturn($user);

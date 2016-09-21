@@ -10,6 +10,7 @@ namespace DocFlow\Domain\Document;
 use DocFlow\Domain\Document\NumberGenerator\AuditNumberGenerator;
 use DocFlow\Domain\User\AuditUser;
 use DocFlow\Domain\User\User;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class DocumentFactory
@@ -22,15 +23,21 @@ class DocumentFactory
     private $numberGenerator;
     /** @var AuditNumberGenerator */
     private $auditNumberGenerator;
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
 
     /**
      * DocumentFactory constructor.
      * @param NumberGenerator $numberGenerator
+     * @param EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(NumberGenerator $numberGenerator)
+    public function __construct(NumberGenerator $numberGenerator, EventDispatcherInterface $eventDispatcher)
     {
         $this->numberGenerator = $numberGenerator;
         $this->auditNumberGenerator = new AuditNumberGenerator($this->numberGenerator);
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -46,6 +53,6 @@ class DocumentFactory
             $documentNumber = $this->numberGenerator->generateNumber($documentType);
         }
 
-        return new Document($documentNumber, $documentType, $user);
+        return new Document($documentNumber, $documentType, $user, $this->eventDispatcher);
     }
 }

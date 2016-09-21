@@ -9,6 +9,7 @@ use DocFlow\Domain\Document\NumberGenerator;
 use DocFlow\Domain\User\User;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class DocumentFactorySpec
@@ -18,11 +19,11 @@ use Prophecy\Argument;
  */
 class DocumentFactorySpec extends ObjectBehavior
 {
-    function let(NumberGenerator $numberGenerator)
+    function let(NumberGenerator $numberGenerator, EventDispatcherInterface $eventDispatcher)
     {
         $documentNumber = new DocumentNumber('aaa');
         $numberGenerator->generateNumber(Argument::any())->willReturn($documentNumber);
-        $this->beConstructedWith($numberGenerator);
+        $this->beConstructedWith($numberGenerator, $eventDispatcher);
     }
     function it_is_initializable()
     {

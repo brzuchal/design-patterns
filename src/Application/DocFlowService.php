@@ -15,6 +15,7 @@ use DocFlow\Domain\Document\DocumentValidator;
 use DocFlow\Domain\Document\NumberGenerator;
 use DocFlow\Domain\Document\PriceCalculatorFactory;
 use DocFlow\Domain\DomainRegistry;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class DocFlowService
@@ -43,19 +44,21 @@ class DocFlowService
      * @param DomainRegistry $domainRegistry
      * @param NumberGenerator $numberGenerator
      * @param DocumentValidator $documentValidator
+     * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(
         string $env,
         DomainRegistry $domainRegistry,
         NumberGenerator $numberGenerator,
-        DocumentValidator $documentValidator
+        DocumentValidator $documentValidator,
+        EventDispatcherInterface $eventDispatcher
     ) {
         $this->env = $env;
         if ($env == self::ENV_DEMO) {
             $numberGenerator = new NumberGenerator\DemoNumberGenerator($numberGenerator);
         }
         $this->domainRegistry = $domainRegistry;
-        $this->documentFactory = new DocumentFactory($numberGenerator);
+        $this->documentFactory = new DocumentFactory($numberGenerator, $eventDispatcher);
         $this->priceCalculatorFactory = new PriceCalculatorFactory();
         $this->documentValidator = $documentValidator;
     }

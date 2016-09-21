@@ -8,9 +8,12 @@
 namespace DocFlow\Domain\Document;
 
 use DateTimeImmutable;
+use DocFlow\Domain\Document\Event\PublishedEvent;
+use DocFlow\Domain\Document\Event\VerifiedEvent;
 use DocFlow\Domain\Document\State\DraftState;
 use DocFlow\Domain\User\User;
 use Money\Money;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class Document
@@ -29,6 +32,8 @@ class Document
     private $author;
     /** @var Money */
     private $price;
+    /** @var EventDispatcherInterface */
+    private $eventDispatcher;
     /** @var DateTimeImmutable */
     private $expireDate;
     /** @var string */
@@ -39,6 +44,7 @@ class Document
      * @param DocumentNumber $number
      * @param DocumentType $type
      * @param User $author
+     * @param EventDispatcherInterface $eventDispatcher
      * @param DateTimeImmutable $expireDate
      * @param string $description
      */
@@ -46,6 +52,7 @@ class Document
         DocumentNumber $number,
         DocumentType $type,
         User $author,
+        EventDispatcherInterface $eventDispatcher,
         DateTimeImmutable $expireDate = null,
         string $description = ''
     ) {
@@ -53,6 +60,7 @@ class Document
         $this->type = $type;
         $this->author = $author;
         $this->number = $number;
+        $this->eventDispatcher = $eventDispatcher;
         $this->expireDate = $expireDate;
         $this->description = $description;
     }
@@ -60,11 +68,19 @@ class Document
     public function verify()
     {
         $this->setState($this->state->verify());
+        $this->eventDispatcher->dispatch(
+            VerifiedEvent::NAME,
+            new VerifiedEvent($this->getNumber())
+        );
     }
 
     public function publish(PriceCalculator $priceCalculator)
     {
         $this->setState($this->state->publish($priceCalculator));
+        $this->eventDispatcher->dispatch(
+            PublishedEvent::NAME,
+            new PublishedEvent($this->getNumber(), $this->price)
+        );
     }
 
     /**

@@ -36,7 +36,7 @@ class DomainRegistry
     /**
      * @return UserRepository
      */
-    public function getUserRepository(): UserRepository
+    public function getUserRepository() : UserRepository
     {
         return $this->userRepository;
     }
@@ -44,7 +44,7 @@ class DomainRegistry
     /**
      * @return DocumentRepository
      */
-    public function getDocumentRepository(): DocumentRepository
+    public function getDocumentRepository() : DocumentRepository
     {
         return $this->documentRepository;
     }
