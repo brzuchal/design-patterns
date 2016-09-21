@@ -75,6 +75,16 @@ class DocFlowService
     }
 
     /**
+     * @param string $documentNumber
+     */
+    public function verify(string $documentNumber)
+    {
+        $documentNumber = new DocumentNumber($documentNumber);
+        $document = $this->domainRegistry->getDocumentRepository()->findByNumber($documentNumber);
+        $document->verify();
+    }
+
+    /**
      * Publishes document
      * @param string $documentNumber
      */
@@ -85,12 +95,7 @@ class DocFlowService
 
         $document->publish($this->priceCalculatorFactory->createPriceCalculator());
     }
-    
-    public function verify()
-    {
-        
-    }
-    
+
     public function archive()
     {
         

@@ -35,5 +35,6 @@ $docFlow = new DocFlowService(
 $document = $docFlow->create('brzuchal', 'INSTRUCTION');
 dump($document);
 
-$docFlow->publish((string)$document->getNumber());
+//$docFlow->publish((string)$document->getNumber());
+$docFlow->verify((string)$document->getNumber());
 dump($document);

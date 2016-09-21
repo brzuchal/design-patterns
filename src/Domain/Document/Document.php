@@ -8,6 +8,7 @@
 namespace DocFlow\Domain\Document;
 
 use DateTimeImmutable;
+use DocFlow\Domain\Document\State\DraftState;
 use DocFlow\Domain\User\User;
 use Money\Money;
 
@@ -18,8 +19,8 @@ use Money\Money;
  */
 class Document
 {
-    /** @var DocumentStatus */
-    private $status;
+    /** @var DocumentState */
+    private $state;
     /** @var DocumentType */
     private $type;
     /** @var DocumentNumber */
@@ -43,7 +44,7 @@ class Document
      */
     public function __construct(DocumentNumber $number, DocumentType $type, User $author, DateTimeImmutable $expireDate = null, string $description = '')
     {
-        $this->status = DocumentStatus::DRAFT();
+        $this->state = new DraftState($this);
         $this->type = $type;
         $this->author = $author;
         $this->number = $number;
@@ -51,19 +52,22 @@ class Document
         $this->description = $description;
     }
 
+    public function verify()
+    {
+        $this->setState($this->state->verify());
+    }
+
     public function publish(PriceCalculator $priceCalculator)
     {
-        $this->status = DocumentStatus::PUBLISHED();
-        $this->price = $priceCalculator->calculatePrice($this);
+        $this->setState($this->state->publish($priceCalculator));
     }
 
     /**
-     * Retrieves document status
-     * @return DocumentStatus
+     * @param DocumentState $documentState
      */
-    public function getStatus(): DocumentStatus
+    private function setState(DocumentState $documentState)
     {
-        return $this->status;
+        $this->state = $documentState;
     }
 
     /**
